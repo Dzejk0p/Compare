@@ -83,9 +83,20 @@ func (d *Differ) dodajPole(nazwa string, parentName *string, bylo, jest interfac
 
 	if parentName != nil {
 		if d.Zmiany[*parentName] == nil {
-			d.Zmiany[*parentName] = map[string]Pole{}
+			d.Zmiany[*parentName] = []map[string]Pole{}
 		}
-		d.Zmiany[*parentName].(map[string]Pole)[nazwa] = p
+
+		for _, m := range d.Zmiany[*parentName].([]map[string]Pole) {
+			_, ok := m[nazwa]
+			if !ok {
+				m[nazwa] = p
+				return
+			}
+		}
+		m := map[string]Pole{
+			nazwa: p,
+		}
+		d.Zmiany[*parentName] = append(d.Zmiany[*parentName].([]map[string]Pole), m)
 		//d.Zmiany[*parentName] = append(d.Zmiany[*parentName].([]Pole), p)
 		return
 	}
