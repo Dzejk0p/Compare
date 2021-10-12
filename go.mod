@@ -1,3 +1,3 @@
-module github.com/Dzejk0P/compare
+module github.com/Dzejk0p/compare
 
 go 1.17
